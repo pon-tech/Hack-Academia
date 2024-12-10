@@ -36,7 +36,6 @@ Copyright 2024 Hack academia.
         <div id="data_text1"></div>
         <div id="data_text2"></div>
         <div id="data_text3"></div>
-        <div id="alert"> </div>
 
         <hr>
         <button id="btnTemp" class="checkbox">Temperature</button>
@@ -63,6 +62,7 @@ const ble_data_level    = new TimeSeries();
 var bDispTemp = true;
 var bDispHumi = true;
 var bDispLevel = true;
+
 
 //-------------------------------------------------
 //smoothie.js
@@ -117,6 +117,7 @@ function postToSlack(msg) {
   };
 }
 
+
 //--------------------------------------------------
 //ロード時の処理
 //--------------------------------------------------
@@ -167,33 +168,34 @@ ble.onRead = function (data, uuid) {
     value += String.fromCharCode(data.getInt8(i));
   }
 
-  // データをカンマ区切りで分割
+  // データを分割
   let values = value.split(",");
 
   // コンソールに値を表示
   console.log(value);
 
-  // HTMLにデータを表示
+  // HTMLにデータを表示 & 異常値の場合Slackへ通知
   if (values.length > 1) {
-    document.getElementById('data_text1').innerHTML = "Temperature:" + values[1];
-    document.getElementById('data_text2').innerHTML = "Humidity:" + values[2];
-    document.getElementById('data_text3').innerHTML = "Water Level:" + values[3];
-    if (values[1] >= 18 && values[1] <= 28 && values[2] >= 50 && values[2] <= 70 && values[3] >= 50) {
-      document.getElementById('alert').innerHTML = "";
+    if (values[1] < 18 || values[1] > 28) {
+      document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + " >>> Warning!";
+      //postToSlack("Warning! : Temperature");
     }
     else {
-      if (values[1] < 18 || values[1] > 28) {
-        document.getElementById('alert').innerHTML = "Warning!:Temperature";
-        postToSlack("Warning!:Temperature");
-      }
-      else if (values[2] < 50 || values[2] > 70) {
-        document.getElementById('alert').innerHTML = "Warning!:Humidity";
-        postToSlack("Warning!:Humidity");
-      }
-      else {
-        document.getElementById('alert').innerHTML = "Warning!:Water Level";
-        postToSlack("Warning!:Water Level");
-      }
+      document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + " >>> OK!";
+    }
+    if (values[2] < 50 || values[2] > 70) {
+      document.getElementById('data_text2').innerHTML = "Humidity : " + values[2] + " >>> Warning!";
+      //postToSlack("Warning!:Humidity");
+    }
+    else {
+      document.getElementById('data_text2').innerHTML = "Humidity : " + values[2] + " >>> OK!";
+    }
+    if (values[3] < 50) {
+      document.getElementById('data_text3').innerHTML = "Water Level:" + values[3] + " >>> Warning!";
+      //postToSlack("Warning!:Water Level");
+    }
+    else {
+      document.getElementById('data_text3').innerHTML = "Water Level:" + values[3] + " >>> OK!";
     }
   }
   document.getElementById('uuid_name').innerHTML = uuid;
