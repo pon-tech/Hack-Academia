@@ -128,20 +128,11 @@ hr{
 }
 
 #data_text1, #data_text2, #data_text3{
-  color:#448aff;
-  font-size:20px;
-  font-weight: 300;
-  line-height: 1.5em;
-}
-
-#alert{
-  color:#ff4444;
+  color:#ff0000;
   font-size:36px;
   font-weight: 300;
   line-height: 1.5em;
 }
-
-
 
 a { text-decoration: none; }
 a:link { color: #9a9a9a; }
