@@ -39,7 +39,7 @@ def main()
         # 温度警告
         if tmp < 18 || tmp > 28
             snd = Sound.new
-            # snd.tone(440, 50)
+            snd.tone(440, 50)
         end 
 
         # 湿度アラートバー
@@ -51,7 +51,7 @@ def main()
         # 湿度警告
         if hum < 50 || hum > 70
             snd = Sound.new
-            # snd.tone(880, 50)
+            snd.tone(880, 50)
         end
 
         # 水位アラートバー
@@ -62,7 +62,7 @@ def main()
         # 水位警告
         if wl < 50
             snd = Sound.new
-            # snd.tone(1320, 50)
+            snd.tone(1320, 50)
         end
 
         sleep(1)
