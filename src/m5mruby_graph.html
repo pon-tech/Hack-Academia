@@ -117,6 +117,24 @@ function postToSlack(msg) {
   };
 }
 
+function twoDigit(num) {
+      let ret;
+      if (num < 10) {
+        ret = "0" + num; 
+      }
+      else {
+        ret = num;
+      }
+      return ret;
+}
+function showClock() {
+  let nowTime = new Date();
+  let nowHour = twoDigit( nowTime.getHours() );
+  let nowMin  = twoDigit( nowTime.getMinutes() );
+  let nowSec  = twoDigit( nowTime.getSeconds() );
+  let msg = "[" + nowHour + ":" + nowMin + ":" + nowSec + "]";
+  return msg;
+}
 
 //--------------------------------------------------
 //ロード時の処理
@@ -177,25 +195,25 @@ ble.onRead = function (data, uuid) {
   // HTMLにデータを表示 & 異常値の場合Slackへ通知
   if (values.length > 1) {
     if (values[1] < 18 || values[1] > 28) {
-      document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + " >>> Warning!";
-      //postToSlack("Warning! : Temperature");
+      document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + "℃" + " >>> Warning!";
+      postToSlack(showClock() + "Warning! : Temperature : " + values[1] + "℃");
     }
     else {
-      document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + " >>> OK!";
+      document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + "℃" + " >>> OK!";
     }
     if (values[2] < 50 || values[2] > 70) {
-      document.getElementById('data_text2').innerHTML = "Humidity : " + values[2] + " >>> Warning!";
-      //postToSlack("Warning!:Humidity");
+      document.getElementById('data_text2').innerHTML = "Humidity : " + values[2] + "%" + " >>> Warning!";
+      postToSlack(showClock() + "Warning! : Humidity : " + values[2] + "%");
     }
     else {
-      document.getElementById('data_text2').innerHTML = "Humidity : " + values[2] + " >>> OK!";
+      document.getElementById('data_text2').innerHTML = "Humidity : " + values[2] + "%" + " >>> OK!";
     }
     if (values[3] < 50) {
-      document.getElementById('data_text3').innerHTML = "Water Level:" + values[3] + " >>> Warning!";
-      //postToSlack("Warning!:Water Level");
+      document.getElementById('data_text3').innerHTML = "Water Level : " + values[3] + "mm" + " >>> Warning!";
+      postToSlack(showClock() + "Warning! : Water Level : " + values[3] + "mm");
     }
     else {
-      document.getElementById('data_text3').innerHTML = "Water Level:" + values[3] + " >>> OK!";
+      document.getElementById('data_text3').innerHTML = "Water Level : " + values[3] + "mm" + " >>> OK!";
     }
   }
   document.getElementById('uuid_name').innerHTML = uuid;
