@@ -37,7 +37,7 @@ def main()
         # 温度バー
         LCD.fill_rect(50, 240 - tmp.round(2) * 4, 40, tmp.round(2) * 4, LCD::YELLOW)
         # 温度警告
-        if tmp < 18 || tmp > 28
+        if tmp < 15 || tmp > 30
             snd = Sound.new
             snd.tone(440, 50)
         end 
@@ -49,7 +49,7 @@ def main()
         # 湿度バー
         LCD.fill_rect(150, 240 - hum.round(2) * 1.6, 40, hum.round(2) * 1.6, LCD::BLUE)
         # 湿度警告
-        if hum < 50 || hum > 70
+        if hum < 40 || hum > 70
             snd = Sound.new
             snd.tone(880, 50)
         end

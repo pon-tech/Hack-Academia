@@ -194,14 +194,14 @@ ble.onRead = function (data, uuid) {
 
   // HTMLにデータを表示 & 異常値の場合Slackへ通知
   if (values.length > 1) {
-    if (values[1] < 18 || values[1] > 28) {
+    if (values[1] < 15 || values[1] > 30) {
       document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + "℃" + " >>> Warning!";
       postToSlack(showClock() + "Warning! : Temperature : " + values[1] + "℃");
     }
     else {
       document.getElementById('data_text1').innerHTML = "Temperature : " + values[1] + "℃" + " >>> OK!";
     }
-    if (values[2] < 50 || values[2] > 70) {
+    if (values[2] < 40 || values[2] > 70) {
       document.getElementById('data_text2').innerHTML = "Humidity : " + values[2] + "%" + " >>> Warning!";
       postToSlack(showClock() + "Warning! : Humidity : " + values[2] + "%");
     }
