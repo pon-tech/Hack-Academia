@@ -1,3 +1,13 @@
+TMP_MIN = 15
+TMP_MAX = 30
+TMP_FREQ = 440
+HUM_MIN = 40
+HUM_MAX = 70
+HUM_FREQ = 880
+WL_MIN = 50
+WL_FREQ = 1320
+PLAY_TIME = 50
+
 class BLE
     def send_temp_humi_wl(temp, humi, wl)
         notify "THW,#{temp},#{humi},#{wl}"
@@ -37,9 +47,9 @@ def main()
         # 温度バー
         LCD.fill_rect(50, 240 - tmp.round(2) * 4, 40, tmp.round(2) * 4, LCD::YELLOW)
         # 温度警告
-        if tmp < 15 || tmp > 30
+        if tmp < TMP_MIN || tmp > TMP_MAX
             snd = Sound.new
-            snd.tone(440, 50)
+            snd.tone(TMP_FREQ, PLAY_TIME)
         end 
 
         # 湿度アラートバー
@@ -49,9 +59,9 @@ def main()
         # 湿度バー
         LCD.fill_rect(150, 240 - hum.round(2) * 1.6, 40, hum.round(2) * 1.6, LCD::BLUE)
         # 湿度警告
-        if hum < 40 || hum > 70
+        if hum < HUM_MIN || hum > HUM_MAX
             snd = Sound.new
-            snd.tone(880, 50)
+            snd.tone(HUM_FREQ, PLAY_TIME)
         end
 
         # 水位アラートバー
@@ -60,9 +70,9 @@ def main()
         # 水位バー
         LCD.fill_rect(250, 240 - (wl / 5) * 8, 40, (wl / 5) * 8, LCD::CYAN)
         # 水位警告
-        if wl < 50
+        if wl < WL_MIN
             snd = Sound.new
-            snd.tone(1320, 50)
+            snd.tone(WL_FREQ, PLAY_TIME)
         end
 
         sleep(1)
